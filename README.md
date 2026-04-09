@@ -106,12 +106,28 @@ docker run --gpus all -it --rm \
   macvo:latest
 ```
 
+
+
+这个好一点，暂停了不会消失。
+
+```
+xhost +local:docker
+docker run --gpus all -it \
+  --name macvo \
+  -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v /home/lhk/data/P001_select:/data \
+  -v /home/lhk/workspace/MAC-VO:/home/macvo/workspace \
+  macvo:latest
+```
+
+
+
 To run the Docker with visualization:
 
     $ xhost +local:docker; docker run --gpus all -it --rm  -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix  -v [DATA_PATH]:/data -v [CODE_PATH]:/home/macvo/workspace macvo:latest
 
 ### 3/4 Run MAC-VO
-
 
 运行出现报错：
 
@@ -122,12 +138,10 @@ Traceback (most recent call last):
     from torch._C import *  # noqa: F403
 ImportError: /usr/local/lib/python3.10/dist-packages/torch/lib/libtorch_cuda.so: undefined symbol: ncclCommWindowDeregister
 
-
 ```
 pip uninstall -y torch torchvision torchaudio
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
 ```
-
 
 We will use `Config/Experiment/MACVO/MACVO_example.yaml` as the configuration file for MAC-VO.
 
@@ -139,6 +153,8 @@ We will use `Config/Experiment/MACVO/MACVO_example.yaml` as the configuration fi
    ```bash
    $ cd workspace
    $ python3 MACVO.py --odom Config/Experiment/MACVO/MACVO_Performant.yaml --data Config/Sequence/TartanAir_example.yaml
+
+   python3 MACVO.py --useRR --odom Config/Experiment/MACVO/MACVO_Performant.yaml --data Config/Sequence/TartanAir_example.yaml
    ```
 
    *Fast Mode* - slightly degraded performance (<5% increase in RTE and ROE) with most speed (12.5fps on 480x640 image)
@@ -146,6 +162,8 @@ We will use `Config/Experiment/MACVO/MACVO_example.yaml` as the configuration fi
    ```bash
    $ cd workspace
    $ python3 MACVO.py --odom Config/Experiment/MACVO/MACVO_Fast.yaml --data Config/Sequence/TartanAir_example.yaml
+
+   python3 MACVO.py --useRR --odom Config/Experiment/MACVO/MACVO_Fast.yaml --data Config/Sequence/TartanAir_example.yaml
    ```
 
 > [!NOTE]
