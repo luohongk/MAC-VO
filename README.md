@@ -90,6 +90,10 @@ Test MAC-VO immediately using the provided demo sequence. The demo sequence is a
 
 To run the Docker:
 
+```
+
+```
+
     $ docker run --gpus all -it --rm  -v [DATA_PATH]:/data -v [CODE_PATH]:/home/macvo/workspace macvo:latest
 
 ```
@@ -109,6 +113,14 @@ To run the Docker with visualization:
 ### 3/4 Run MAC-VO
 
 
+运行出现报错：
+
+Traceback (most recent call last):
+  File "/home/macvo/workspace/MACVO.py", line 2, in `<module>`
+    import torch
+  File "/usr/local/lib/python3.10/dist-packages/torch/__init__.py", line 442, in `<module>`
+    from torch._C import *  # noqa: F403
+ImportError: /usr/local/lib/python3.10/dist-packages/torch/lib/libtorch_cuda.so: undefined symbol: ncclCommWindowDeregister
 
 
 ```
